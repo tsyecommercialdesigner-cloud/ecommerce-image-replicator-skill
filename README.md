@@ -2,7 +2,7 @@
 
 通过现有ecommerce-image-replicator MCP，指导Agent依据产品图与已确认事实复刻竞品图，并接手、交付或修订已有任务。
 
-当前版本：**0.1.0-mvp.11**（预发布候选）。适配MCP 0.1.7；已验证Windows DSH Desktop 0.2.1-rc.2，其它Host尚未行为验收。
+当前版本：**0.1.0-mvp.11**（已发布预发布版本）。适配MCP 0.1.7；已验证Windows DSH Desktop 0.2.1-rc.2，其它Host尚未行为验收。
 
 ## 使用入口
 
@@ -22,4 +22,4 @@ DSH单次已有结果交付实测1分9秒、4工具调用，无新增供应商�
 - [实施状态](docs/MVP-STATUS.md)、[DSH验收](docs/DSH-MVP-REPORT.md)
 - [工程指南](docs/engineering/ENGINEERING-GUIDE.md)、[手册规范](docs/delivering/MANUAL-WRITING-GUIDE.md)
 
-Git交付：dev → PR → CI和评审 → main复验 → tag触发Release。尚未发布时，Release链接可能没有附件；实际发布结果在MANUAL末尾记录。许可证：[MIT](LICENSE)。
+Git交付：dev → PR → CI和评审 → main复验 → tag触发Release。实际Release附件、来源提交、下载校验及安装实测结果见MANUAL末尾；Release附件保持标签快照，主分支手册包含发布后记录。许可证：[MIT](LICENSE)。

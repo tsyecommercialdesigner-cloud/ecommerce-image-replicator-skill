@@ -106,6 +106,15 @@ foreach ($item in $manifest.files) {
 
 ## 5. 发布与验收记录
 
-当前为待发布记录。Release成功后将以实际tag、完整提交、附件和工作流结果回填本节，未发布前不声称下载命令已完成线上验收。
+已于2026-10-29 12:59（Asia/Shanghai）发布为 **Prerelease**，不是Draft。
 
-行为证据：DSH已有结果交付单次1分9秒、4工具调用、无新增供应商调用，普通文件链接实际打开；最后通用示例整理只做静态检查。全部PRD、新任务全链路、其它Host及稳定性能未由此证明。详见VALIDATION.md及仓库[效率回归](evaluations/FLOW-PERFORMANCE.md)。
+- Release：[v0.1.0-mvp.11](https://github.com/tsyecommercialdesigner-cloud/ecommerce-image-replicator-skill/releases/tag/v0.1.0-mvp.11)
+- 标签完整提交：`276b354519caac537aad323c2b8cb3ecf25f40e7`（[合并PR #1](https://github.com/tsyecommercialdesigner-cloud/ecommerce-image-replicator-skill/pull/1)）。
+- ZIP SHA256：`32dff2afab494b76334cb606bb8b193844bb1e5a27e2e41c9adb1fa4f6b9b03f`。
+- [main CI](https://github.com/tsyecommercialdesigner-cloud/ecommerce-image-replicator-skill/actions/runs/40820721854)及[Release工作流](https://github.com/tsyecommercialdesigner-cloud/ecommerce-image-replicator-skill/actions/runs/40820762357)均成功。
+- 实际附件共5份：上表列出的ZIP、manifest.json、SHA256SUMS.txt、MANUAL.md、VALIDATION.md。ZIP内部是四份文件（含许可证），manifest记录与下载后核对一致。
+- 下载及安装命令已用实际发行附件在仓库内隔离目录执行：首次/重复下载、全部附件和包内摘要、带外层引号的中文及方括号项目路径、同名安装保护通过；空输入、相对路径、不存在路径均拒绝。测试目录已清理，正式Host安装及MCP配置未动；未重新执行Host发现、升级到其它版本或收费调用。
+
+Release附件MANUAL/VALIDATION保留该标签构建时的快照；本节为发布后的实际结果，最新手册在[主分支MANUAL](https://github.com/tsyecommercialdesigner-cloud/ecommerce-image-replicator-skill/blob/main/MANUAL.md)。本次回填不移动标签或覆盖已发行附件，不把当前文档提交当作运行包来源。
+
+行为证据：DSH已有结果交付单次1分9秒、4工具调用、无新增供应商调用，普通文件链接实际打开；最后通用示例整理只做静态检查。全部PRD、新任务全链路、其它Host及稳定性能未由此证明。详见VALIDATION.md及仓库[效率回归](https://github.com/tsyecommercialdesigner-cloud/ecommerce-image-replicator-skill/blob/main/evaluations/FLOW-PERFORMANCE.md)。
