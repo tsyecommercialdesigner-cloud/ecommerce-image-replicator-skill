@@ -53,12 +53,17 @@ foreach ($item in $manifest.files) {
 默认采用DSH项目级作用域。源码的skills目录、下载目录和Host发现目录各有用途，不互相代用。将已核验目录安装到你选择的业务工作区，已有同名目录时停止并比较差异。
 
 ```powershell
-$project = (Read-Host '已存在的业务工作区绝对路径').Trim()
-if ($project.StartsWith('"') -and $project.EndsWith('"')) { $project = $project.Substring(1, $project.Length - 2) }
+$project = (Read-Host '已存在的业务工作区绝对路径；留空为当前用户级').Trim()
+if ($project.StartsWith('"') -or $project.EndsWith('"')) {
+    if ($project.Length -lt 2 -or !$project.StartsWith('"') -or !$project.EndsWith('"')) { throw '路径引号不成对' }
+    $project = $project.Substring(1, $project.Length - 2)
+}
+$scope = '项目级'
+if (!$project.Trim()) { $project = $env:USERPROFILE; $scope = '用户级' }
 if ($project.Contains('"') -or !$project -or ![IO.Path]::IsPathFullyQualified($project) -or !(Test-Path -LiteralPath $project -PathType Container)) { throw '请输入已存在的工作区绝对路径' }
 $parent = Join-Path $project '.agents/skills'
 $target = Join-Path $parent 'ecommerce-image-replicator'
-Write-Host "项目级安装位置：$target"
+Write-Host "$scope 安装位置：$target"
 if (Test-Path -LiteralPath $target) { throw '已有同名技能；先比较、备份到扫描目录之外，不能覆盖定制' }
 New-Item -ItemType Directory -Path $parent -Force | Out-Null
 Copy-Item -LiteralPath $skill -Destination $target -Recurse
@@ -79,7 +84,7 @@ foreach ($item in $manifest.files) {
 
 在DSH中打开该工作区并新建会话，确认可发现ecommerce-image-replicator，实际加载来源为该目录、版本为0.1.0-mvp.11。默认文件监视可刷新目录；不同提供方或禁用监视时重开会话后确认。发现同名用户级或插件副本时先排除来源遮蔽，不修改Host私有数据库。
 
-本手册只提供项目级安装，空项目路径会拒绝；不自动改成用户级安装，也不修改MCP配置。
+默认填写业务工作区采用项目级；空输入采用当前运行用户主目录下的`.agents/skills/`用户级目录（DSH支持的agentsHome来源）。两种作用域都显示最终位置并保护同名目录；不修改MCP配置。
 
 ## 3. 使用
 
@@ -113,7 +118,7 @@ foreach ($item in $manifest.files) {
 - ZIP SHA256：`32dff2afab494b76334cb606bb8b193844bb1e5a27e2e41c9adb1fa4f6b9b03f`。
 - [main CI](https://github.com/tsyecommercialdesigner-cloud/ecommerce-image-replicator-skill/actions/runs/40820721854)及[Release工作流](https://github.com/tsyecommercialdesigner-cloud/ecommerce-image-replicator-skill/actions/runs/40820762357)均成功。
 - 实际附件共5份：上表列出的ZIP、manifest.json、SHA256SUMS.txt、MANUAL.md、VALIDATION.md。ZIP内部是四份文件（含许可证），manifest记录与下载后核对一致。
-- 下载及安装命令已用实际发行附件在仓库内隔离目录执行：首次/重复下载、全部附件和包内摘要、带外层引号的中文及方括号项目路径、同名安装保护通过；空输入、相对路径、不存在路径均拒绝。测试目录已清理，正式Host安装及MCP配置未动；未重新执行Host发现、升级到其它版本或收费调用。
+- 下载及安装命令已用实际发行附件在仓库内隔离目录执行：首次/重复下载、全部附件和包内摘要、带外层引号的中文及方括号项目路径、同名安装保护通过；空输入在隔离的模拟用户主目录安装成功；相对路径、不存在路径和不成对引号均拒绝。测试目录已清理，正式Host安装及MCP配置未动；未重新执行Host发现、升级到其它版本或收费调用。
 
 Release附件MANUAL/VALIDATION保留该标签构建时的快照；本节为发布后的实际结果，最新手册在[主分支MANUAL](https://github.com/tsyecommercialdesigner-cloud/ecommerce-image-replicator-skill/blob/main/MANUAL.md)。本次回填不移动标签或覆盖已发行附件，不把当前文档提交当作运行包来源。
 
